@@ -113,8 +113,8 @@ class StrategyWifiDirect(context: Context, scope: CoroutineScope) : BaseStrategy
             if (info != null && info.groupFormed && host != null) {
 
                 p2pManager.removeGroup(channel, object : WifiP2pManager.ActionListener {
-                    override fun onSuccess() { AppLog.d("WifiDirectManager: Final group removal success") }
-                    override fun onFailure(reason: Int) { AppLog.d("WifiDirectManager: Final group removal failed: $reason") }
+                    override fun onSuccess() { AppLog.d("WifiDirectManager: Remove group after start success") }
+                    override fun onFailure(reason: Int) { AppLog.d("WifiDirectManager: Remove group after start failed: $reason") }
                 })
 
                 Handler(Looper.getMainLooper()).postDelayed({
