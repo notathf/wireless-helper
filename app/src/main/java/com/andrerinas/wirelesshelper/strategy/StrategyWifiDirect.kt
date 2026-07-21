@@ -112,13 +112,16 @@ class StrategyWifiDirect(context: Context, scope: CoroutineScope) : BaseStrategy
             val host = info?.groupOwnerAddress?.hostAddress
             if (info != null && info.groupFormed && host != null) {
 
-                Log.i(TAG, "Existing WiFi Direct group found. Owner: $host")
+                p2pManager.removeGroup(channel, object : WifiP2pManager.ActionListener {
+                    override fun onSuccess() { AppLog.d("WifiDirectManager: Final group removal success") }
+                    override fun onFailure(reason: Int) { AppLog.d("WifiDirectManager: Final group removal failed: $reason") }
+                })
 
-                isConnectingToPeer = false
-                launchAndroidAuto(host)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startDiscoveryLoop()
+                }, 200)
 
             } else {
-                Log.i(TAG, "No existing WiFi Direct group start discovering")
                 startDiscoveryLoop()
             }
         }
